@@ -12,7 +12,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'relationship_app',
+    'LibraryProject.relationship_app',  # Changed this line to include the parent folder
 ]
 
 MIDDLEWARE = [
