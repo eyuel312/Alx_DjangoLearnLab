@@ -1,31 +1,32 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import user_passes_test
-from .models import Book, Library
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import permission_required
+from .models import Book
 
-# Role checking functions
-def is_admin(user):
-    return user.is_authenticated and user.userprofile.role == 'Admin'
+# View to add a book
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    if request.method == 'POST':
+        # Add book logic here
+        pass
+    return render(request, 'relationship_app/add_book.html')
 
-def is_librarian(user):
-    return user.is_authenticated and user.userprofile.role == 'Librarian'
+# View to edit a book
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        # Edit book logic here
+        pass
+    return render(request, 'relationship_app/edit_book.html', {'book': book})
 
-def is_member(user):
-    return user.is_authenticated and user.userprofile.role == 'Member'
-
-# Admin View
-@user_passes_test(is_admin)
-def admin_view(request):
-    return render(request, 'relationship_app/admin_view.html')
-
-# Librarian View
-@user_passes_test(is_librarian)
-def librarian_view(request):
-    return render(request, 'relationship_app/librarian_view.html')
-
-# Member View
-@user_passes_test(is_member)
-def member_view(request):
-    return render(request, 'relationship_app/member_view.html')
+# View to delete a book
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('list_books')
+    return render(request, 'relationship_app/delete_book.html', {'book': book})
 
 # Previous views
 def list_books(request):
