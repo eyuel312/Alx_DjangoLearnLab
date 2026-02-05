@@ -12,6 +12,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
     'LibraryProject.relationship_app',  # Changed this line to include the parent folder
 ]
 
@@ -23,6 +24,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# Custom user model
+AUTH_USER_MODEL = 'users.CustomUser'
+
+# Authentication backends (optional but recommended)
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
